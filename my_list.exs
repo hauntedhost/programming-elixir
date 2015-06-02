@@ -66,9 +66,9 @@ defmodule MyList do
   #   [char + rem(shift, 26)] ++ caesar(chars, shift)
   # end
 
-  def swap([]), do: []
-  def swap([a]), do: [a]
-  def swap([a, b|tail]), do: [b, a|swap(tail)]
+  def swapPairs([]), do: []
+  def swapPairs([a]), do: [a]
+  def swapPairs([a, b | tail]), do: [b, a | swapPairs(tail)]
 
   # def swap([]), do: []
   # def swap([ a, b | tail ]), do: [ b, a | swap(tail) ]
