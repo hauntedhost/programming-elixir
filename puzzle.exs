@@ -11,8 +11,8 @@ defmodule Puzzle do
   end
 
   def sum_eq_n?(0, []), do: true
-  def sum_eq_n?(n, [n]), do: true
-  def sum_eq_n?(n, xs), do: any?(pairs(xs), &(sum(&1) == n))
+  # def sum_eq_n?(n, [n]), do: true
+  def sum_eq_n?(n, xs), do: any?(combination(2, xs), &(sum(&1) == n))
 
   def pairs(xs), do: combination(2, xs)
 
