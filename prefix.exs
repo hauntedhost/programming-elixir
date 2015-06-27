@@ -3,4 +3,3 @@ prefix = fn (prefix) ->
     "#{prefix} #{name}"
   end
 end
-

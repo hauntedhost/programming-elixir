@@ -9,4 +9,3 @@ defmodule Factorial do
     n * of(n - 1)
   end
 end
-

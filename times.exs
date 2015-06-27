@@ -11,4 +11,3 @@ defmodule Times do
     double(n) * 2
   end
 end
-
