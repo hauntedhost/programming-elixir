@@ -76,6 +76,65 @@ defmodule MyList do
 
   def span(from, to) when from > to, do: []
   def span(from, to), do: [from | span(from + 1, to)]
+
+  def all?([], _func), do: true
+  def all?([x|xs], func), do: func.(x) && all?(xs, func) || false
+
+  def each([], _func), do: []
+  def each([x|xs], func), do: [func.(x) | each(xs, func)]
+
+  def filter([], _func), do: []
+  def filter([x|xs], func) do
+    func.(x) && [x|filter(xs, func)] || filter(xs, func)
+  end
+
+  def split(_, count) when count < 0, do: raise "TODO: Negative count."
+  def split([], _count), do: [[], []]
+  def split(xs, 0), do: [[], [xs]]
+  def split([x|xs], count) do
+    [a, b] = split(xs, count - 1)
+    [[x|a], b]
+  end
+
+  def take(_, count) when count < 0, do: raise "TODO: Negative count."
+  def take([], _count), do: []
+  def take(_, 0), do: []
+  def take([x|xs], count), do: [x|take(xs, count - 1)]
+
+  def flatten([]), do: []
+  def flatten([x|xs]) when is_list(x), do: flatten(x) ++ flatten(xs)
+  def flatten([x|xs]), do: [x|flatten(xs)]
+
+  def flatten(list), do: do_flatten(list, [])
+
+  # -- José Valim version -----------------------
+  # def do_flatten([h|t], tail) when is_list(h) do
+  #   do_flatten(h, do_flatten(t, tail))
+  # end
+
+  # def do_flatten([h|t], tail) do
+  #   [h|do_flatten(t, tail)]
+  # end
+
+  # def do_flatten([], tail) do
+  #   tail
+  # end
+  # ---------------------------------------------
+
+  # def split(xs, count), do: split(xs, count, [[], []])
+
+  # [1,2,3], 2
+  # 1 [2,3], 2
+  # def split(_, 0, pairs), do: pairs
+
+  # def split([x|xs], count, pairs = [a, b]) do
+  #   IO.inspect pairs
+  #   split(xs, count - 1, [[x|a], b])
+  # end
+
+  # def split([], _count, pairs) do
+  #   pairs
+  # end
 end
 
 # [1,2,3], 0, &(&2 + (&1 + 1)) = 2 + 3 + 4 = 9
