@@ -105,9 +105,10 @@ defmodule MyList do
   def flatten([x|xs]) when is_list(x), do: flatten(x) ++ flatten(xs)
   def flatten([x|xs]), do: [x|flatten(xs)]
 
-  def flatten(list), do: do_flatten(list, [])
+  # # -- José Valim version -----------------------
 
-  # -- José Valim version -----------------------
+  # def flatten(list), do: do_flatten(list, [])
+
   # def do_flatten([h|t], tail) when is_list(h) do
   #   do_flatten(h, do_flatten(t, tail))
   # end
