@@ -77,6 +77,15 @@ defmodule MyList do
   def span(from, to) when from > to, do: []
   def span(from, to), do: [from | span(from + 1, to)]
 
+  def none?([], _func), do: true
+  def none?([x|xs], func), do: !func.(x) && none?(xs, func) || false
+
+  def is_prime?(n) when n <= 1, do: false
+  def is_prime?(n), do: none?(span(2, n - 1), &(rem(n, &1) == 0))
+
+  def primes_upto(to) when to <= 1, do: []
+  def primes_upto(to), do: (for n <- span(2, to), is_prime?(n), do: n)
+
   def all?([], _func), do: true
   def all?([x|xs], func), do: func.(x) && all?(xs, func) || false
 
