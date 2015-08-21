@@ -1,6 +1,10 @@
 defmodule MyList do
   import Enum, only: [at: 2, sort: 1, to_list: 1]
 
+  def all_ascii?(chars), do: all?(chars, &(&1 in 32..126))
+
+  def anagram?(word1, word2), do: sort(word1) == sort(word2)
+
   def len([]), do: 0
   def len([_|xs]), do: 1 + len(xs)
 
