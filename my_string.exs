@@ -11,6 +11,16 @@ defmodule MyString do
     apply(Kernel, to_atom(operator), map([num1, num2], &to_integer/1))
   end
 
+  def capitalize_sentences(sentences) do
+    sentences
+    |> String.split(~r/\.\s+/)
+    |> map(&(String.capitalize(&1)))
+    |> Enum.join(". ")
+  end
+
+  def is_blank?(string), do: Regex.match?(~r/^\s*$/, string)
+  def is_present?(string), do: !is_blank?(string)
+
   def center(words) do
     words
     |> sort_by_length
