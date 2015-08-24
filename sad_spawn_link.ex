@@ -18,4 +18,5 @@ defmodule SadSpawnLink do
   end
 end
 
-SadSpawnLink.run
+# Run:
+# $ elixir -r sad_spawn_link.ex -e SadSpawnLink.run

@@ -18,4 +18,5 @@ defmodule SadSpawn do
   end
 end
 
-SadSpawn.run
+# Run:
+# $ elixir -r sad_spawn.ex -e SadSpawn.run
