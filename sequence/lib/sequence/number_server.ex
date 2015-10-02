@@ -1,10 +1,10 @@
-defmodule Sequence.Server do
+defmodule Sequence.NumberServer do
   use GenServer
 
-  # API
+  ## API
 
   def start_link(stash_pid) do
-    GenServer.start_link(__MODULE__, stash_pid, name: __MODULE__)
+    {:ok, _pid} = GenServer.start_link(__MODULE__, stash_pid, name: __MODULE__)
   end
 
   def inc(delta \\ 1) do
@@ -19,10 +19,10 @@ defmodule Sequence.Server do
     GenServer.cast(__MODULE__, {:set_number, new_number})
   end
 
-  # GenServer
+  ## GenServer
 
   def init(stash_pid) do
-    current_number = Sequence.Stash.get_value(stash_pid)
+    current_number = Sequence.Stash.get(:number)
     {:ok, {current_number, stash_pid}}
   end
 
@@ -39,6 +39,6 @@ defmodule Sequence.Server do
   end
 
   def terminate(_reason, {current_number, stash_pid}) do
-    Sequence.Stash.save_value(stash_pid, current_number)
+    Sequence.Stash.put(:number, current_number)
   end
 end
