@@ -1,10 +1,16 @@
 defmodule Sequence.StackServer do
   use GenServer
 
-  # API
+  ## API
 
-  def start_link(initial_stack \\ []) do
-    GenServer.start_link(__MODULE__, initial_stack, name: __MODULE__)
+  def start_link do
+    {:ok, _pid} = GenServer.start_link(
+      __MODULE__, :nothing, name: __MODULE__
+    )
+  end
+
+  def crash! do
+    GenServer.call(__MODULE__, :crash!)
   end
 
   def pop do
@@ -17,15 +23,24 @@ defmodule Sequence.StackServer do
 
   # GenServer
 
-  # def handle_call(:pop, _from, []) do
-  #   {:reply, :nothing, []}
-  # end
-
-  def handle_call(:pop, _from, [x|xs]) do
-    {:reply, x, xs}
+  def init(_) do
+    stack = Sequence.Stash.get(:stack) || []
+    {:ok, stack}
   end
 
-  def handle_cast({:push, x}, xs) do
-    {:noreply, [x|xs]}
+  def handle_call(:pop, _from, []) do
+    {:reply, :nothing, []}
+  end
+
+  def handle_call(:pop, _from, [head|tail]) do
+    {:reply, head, tail}
+  end
+
+  def handle_cast({:push, value}, stack) do
+    {:noreply, [value|stack]}
+  end
+
+  def terminate(_reason, stack) do
+    Sequence.Stash.put(:stack, stack)
   end
 end

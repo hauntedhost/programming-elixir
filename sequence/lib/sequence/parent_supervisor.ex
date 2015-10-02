@@ -1,24 +1,32 @@
 defmodule Sequence.ParentSupervisor do
   use Supervisor
 
-  def start_link(initial_number \\ 1) do
+  ## API
+
+  def start_link(initial_stash \\ %{}) do
     result = {:ok, sup} = Supervisor.start_link(
-      __MODULE__, [initial_number], name: __MODULE__
+      __MODULE__, :nothing, name: __MODULE__
     )
 
-    start_workers(sup, initial_number)
+    start_workers(sup, initial_stash)
     result
   end
 
-  def start_workers(sup, initial_number) do
-    {:ok, stash_pid} = Supervisor.start_child(
-      sup, worker(Sequence.Stash, [%{number: initial_number}])
+  def start_workers(sup, initial_stash) do
+    {:ok, _pid} = Supervisor.start_child(
+      sup, worker(Sequence.Stash, [initial_stash])
     )
 
     {:ok, _pid} = Supervisor.start_child(
-      sup, supervisor(Sequence.NumberSupervisor, [stash_pid])
+      sup, supervisor(Sequence.NumberSupervisor, [])
+    )
+
+    {:ok, _pid} = Supervisor.start_child(
+      sup, supervisor(Sequence.StackSupervisor, [])
     )
   end
+
+  ## Supervisor
 
   def init(_) do
     supervise([], strategy: :one_for_one)

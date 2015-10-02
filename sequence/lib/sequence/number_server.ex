@@ -3,8 +3,14 @@ defmodule Sequence.NumberServer do
 
   ## API
 
-  def start_link(stash_pid) do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, stash_pid, name: __MODULE__)
+  def start_link do
+    {:ok, _pid} = GenServer.start_link(
+      __MODULE__, :nothing, name: __MODULE__
+    )
+  end
+
+  def crash! do
+    GenServer.call(__MODULE__, :crash!)
   end
 
   def inc(delta \\ 1) do
@@ -12,33 +18,33 @@ defmodule Sequence.NumberServer do
   end
 
   def next do
-    GenServer.call(__MODULE__, :next_number)
+    GenServer.call(__MODULE__, :next)
   end
 
   def set(new_number) do
-    GenServer.cast(__MODULE__, {:set_number, new_number})
+    GenServer.cast(__MODULE__, {:set, new_number})
   end
 
   ## GenServer
 
-  def init(stash_pid) do
-    current_number = Sequence.Stash.get(:number)
-    {:ok, {current_number, stash_pid}}
+  def init(_) do
+    current_number = Sequence.Stash.get(:number) || 0
+    {:ok, current_number}
   end
 
-  def handle_call(:next_number, _from, {current_number, stash_pid}) do
-    {:reply, current_number, {current_number + 1, stash_pid}}
+  def handle_call(:next, _from, current_number) do
+    {:reply, current_number, current_number + 1}
   end
 
-  def handle_cast({:inc, delta}, {current_number, stash_pid}) do
-    {:noreply, {current_number + delta, stash_pid}}
+  def handle_cast({:inc, delta}, current_number) do
+    {:noreply, current_number + delta}
   end
 
-  def handle_cast({:set_number, new_number}, {_current_number, stash_pid}) do
-    {:noreply, {new_number, stash_pid}}
+  def handle_cast({:set, new_number}, _current_number) do
+    {:noreply, new_number}
   end
 
-  def terminate(_reason, {current_number, stash_pid}) do
+  def terminate(_reason, current_number) do
     Sequence.Stash.put(:number, current_number)
   end
 end

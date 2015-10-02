@@ -1,4 +1,4 @@
-defmodule Sequence.NumberSupervisor do
+defmodule Sequence.StackSupervisor do
   use Supervisor
 
   ## API
@@ -12,7 +12,7 @@ defmodule Sequence.NumberSupervisor do
   ## Supervisor
 
   def init(_) do
-    child_processes = [worker(Sequence.NumberServer, [])]
+    child_processes = [worker(Sequence.StackServer, [])]
     supervise(child_processes, strategy: :one_for_one)
   end
 end
