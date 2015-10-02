@@ -14,7 +14,8 @@ defmodule Sequence.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger],
+     mod: {Sequence, []}]
   end
 
   # Dependencies can be Hex packages:

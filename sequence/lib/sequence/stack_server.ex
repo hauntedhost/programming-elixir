@@ -17,9 +17,9 @@ defmodule Sequence.StackServer do
 
   # GenServer
 
-  def handle_call(:pop, _from, []) do
-    {:reply, :nothing, []}
-  end
+  # def handle_call(:pop, _from, []) do
+  #   {:reply, :nothing, []}
+  # end
 
   def handle_call(:pop, _from, [x|xs]) do
     {:reply, x, xs}
