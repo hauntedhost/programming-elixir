@@ -16,7 +16,8 @@ defmodule Sequence.Mixfile do
   def application do
     [
       applications: [:logger],
-      mod: {Sequence, %{number: 777, stack: [:apples, :pears, :bananas]}},
+      env: [initial_stash: %{number: 777, stack: [:apples, :pears, :bananas]}],
+      mod: {Sequence, []},
       registered: [Sequence.NumberServer, Sequence.StackServer]
     ]
   end
