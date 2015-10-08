@@ -1,5 +1,7 @@
 defmodule FizzBuzz do
 
+  def upto(final), do: upto_case(final)
+
   def upto_case(final), do: 1..final |> Enum.map(&fizzbuzz_case/1)
 
   def fizzbuzz_case(n) do
