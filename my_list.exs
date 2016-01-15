@@ -55,12 +55,6 @@ defmodule MyList do
     [code - wrap] ++ caesar(chars, n)
   end
 
-  # abcdefghijklmnopqrstuvwxyz
-  # a/97 - z/122
-  # z, 1 == a
-  # 122 + 1 == 97
-  # 123 == 97
-
   # def caesar([char|chars], shift) do
   #   when char + rem(shift, 26) > ?z,
   #   do: [char + rem(shift, 26) - 26] ++ caesar(chars, shift)
@@ -137,8 +131,6 @@ defmodule MyList do
 
   # def split(xs, count), do: split(xs, count, [[], []])
 
-  # [1,2,3], 2
-  # 1 [2,3], 2
   # def split(_, 0, pairs), do: pairs
 
   # def split([x|xs], count, pairs = [a, b]) do
@@ -153,8 +145,3 @@ end
 
 # [1,2,3], 0, &(&2 + (&1 + 1)) = 2 + 3 + 4 = 9
 # MyList.reduce [1,2,3], 0, &(&2 + (&1 + 1))
-
-# [1,2,3]
-# [1|square([2,3])]
-# [1|[2|square([3])]]
-# [1|[2|[3|square([])]]]
