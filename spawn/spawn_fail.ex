@@ -1,4 +1,4 @@
-defmodule SadSpawn do
+defmodule SpawnFail do
   import :timer, only: [sleep: 1]
 
   def sad_function do
@@ -8,7 +8,7 @@ defmodule SadSpawn do
 
   def run do
     Process.flag(:trap_exit, true)
-    spawn(SadSpawn, :sad_function, [])
+    spawn(__MODULE__, :sad_function, [])
     receive do
       message ->
         IO.puts "Message received: #{inspect message}"
@@ -18,5 +18,4 @@ defmodule SadSpawn do
   end
 end
 
-# Run:
-# $ elixir -r sad_spawn.ex -e SadSpawn.run
+# $ elixir -r spawn_fail.ex -e SpawnFail.run
