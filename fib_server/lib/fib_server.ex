@@ -1,20 +1,27 @@
 defmodule FibServer do
-  alias FibServer.Scheduler, as: Scheduler
-  alias FibServer.Solver, as: FibSolver
+  alias FibServer.{Scheduler, Solver}
 
-  def run do
-    to_process = [37, 37, 37, 37, 37, 37]
+  # 1. create a "queue" list of the number 37, 20 times.
+  #
+  # 2. from 1 to 8, time how long it takes to solve 20 fib sequences up to
+  #    the number 37 with with n number of processes computing at once
+  #
+  def start do
+    queue = List.duplicate(37, 20)
 
-    Enum.each(1..10, fn(num_processes) ->
-      {time, result} = :timer.tc(Scheduler, :run,
-                                 [num_processes, FibSolver, :fib, to_process])
+    Enum.each(1..8, fn(num_processes) ->
+      {time, result} = :timer.tc(
+        Scheduler, :run, [num_processes, Solver, :fib, queue]
+      )
+
+      # let laptop fan turn off
+      Process.sleep(5_000)
 
       if num_processes == 1 do
         IO.inspect(result)
-        IO.puts("\n #   time (s)")
+        IO.puts "\n#\ttime(s)"
       end
-
-      :io.format "~2B   ~.2f~n", [num_processes, time/1_000_000.0]
+      IO.puts "#{num_processes}\t#{time/1000000.0}"
     end)
   end
 end

@@ -15,12 +15,14 @@ defmodule Parallel do
   defp spawn_links(collection, fun) do
     me = self
     Enum.map(collection, fn(elem) ->
-      spawn_link fn -> send(me, { self, fun.(elem)}) end
+      spawn_link(fn ->
+        send(me, {self, fun.(elem)})
+      end)
     end)
   end
 
-  defp collect_results(links) do
-    Enum.map(links, fn(pid) ->
+  defp collect_results(link_pids) do
+    Enum.map(link_pids, fn(pid) ->
       receive do {^pid, result} -> result end
     end)
   end
