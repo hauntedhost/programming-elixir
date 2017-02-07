@@ -13,10 +13,10 @@ defmodule Parallel do
   end
 
   defp spawn_links(collection, fun) do
-    me = self
+    me = self()
     Enum.map(collection, fn(elem) ->
       spawn_link(fn ->
-        send(me, {self, fun.(elem)})
+        send(me, {self(), fun.(elem)})
       end)
     end)
   end
