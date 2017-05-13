@@ -2,12 +2,14 @@ defmodule Howdy.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :howdy,
-     version: "0.1.0",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :howdy,
+      version: "0.1.0",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+    ]
   end
 
   # Configuration for the OTP application
@@ -15,8 +17,10 @@ defmodule Howdy.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger],
-     mod: {Howdy.Application, []}]
+    [
+      extra_applications: [:logger],
+      mod: {Howdy.Application, []},
+    ]
   end
 
   # Dependencies can be Hex packages:
@@ -29,6 +33,8 @@ defmodule Howdy.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:wobserver, "0.1.7"},
+    ]
   end
 end

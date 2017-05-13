@@ -28,3 +28,30 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+wobserver_port = case System.get_env("PORT") do
+  nil  -> 4001
+  port -> String.to_integer(port)
+end
+
+# wobserver_discovery_search = fn ->
+#     [
+#       %{
+#         name: "one",
+#         host: "127.0.0.1",
+#         port: 4001,
+#         local?: true,
+#       },
+#       %{
+#         name: "two",
+#         host: "127.0.0.1",
+#         port: 4002,
+#         local?: true,
+#       },
+#     ]
+# end
+
+config :wobserver,
+  port: wobserver_port #,
+  # discovery: :custom,
+  # discovery_search: wobserver_discovery_search
