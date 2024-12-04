@@ -5,4 +5,4 @@
 Personal code while reading [Programming Elixir](https://pragprog.com/book/elixir/programming-elixir). Excellent book.
 
 ---
-[Sean Omlor](http://seanomlor.com)
+👻 [haunted.host](https://www.haunted.host)
